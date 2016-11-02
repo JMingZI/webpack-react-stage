@@ -1,0 +1,10 @@
+.avatar {
+    width:px2rem2(45);
+    height:px2rem2(45);
+    border-radius: px2rem2(45)*$borderRadius;
+    //background-color: #fa565a;
+    color: #fff;
+    text-align: center;
+    @include font-dpr(14);
+    line-height: px2rem2(45);
+}

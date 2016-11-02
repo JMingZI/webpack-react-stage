@@ -1,0 +1,14 @@
+@import "./styles/reset.scss";
+@import "./styles/function.scss";
+@import "./styles/iconfont.css";
+
+body {
+    background-color: #f2f2f2;
+    @include font-dpr(14);
+}
+#app {
+    position: relative;
+    width: 10rem;
+    height:100%;
+    margin: 0 auto;
+}

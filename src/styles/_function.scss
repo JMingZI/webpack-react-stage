@@ -1,0 +1,102 @@
+@charset "utf-8";
+
+// baseFontSize
+$baseFontSize: 75;
+@function px2rem($px){
+    @return $px/$baseFontSize * 1rem;
+}
+@function px2rem2($px){
+    @return px2rem($px*2);
+}
+
+// 字体大小计算
+@mixin font-dpr($font-size){
+    font-size: $font-size * 1px;
+    [data-dpr="2"] & {
+        font-size: $font-size * 2px;
+    }
+    [data-dpr="3"] & {
+        font-size: $font-size * 3px;
+    }
+}
+
+// gpu
+@mixin GPU {
+    -webkit-transform: translateZ(0);
+    -moz-transform: translateZ(0);
+    -ms-transform: translateZ(0);
+    -o-transform: translateZ(0);
+    transform: translateZ(0);
+    -webkit-backface-visibility:hidden;
+    -webkit-perspective:1000;
+}
+
+/* *
+ * 用法
+ * @include absolute-middle(params) {
+    }
+ */
+@mixin absolute-middle ($width, $height, $top, $left) {
+    position: absolute;
+    width:px2rem2($width);
+    height:px2rem2($height);
+    @if ($top != "") {
+        top: px2rem2($top);
+    } @else {
+        top:50%;
+        margin-top: px2rem2(-$height/2);
+    }
+    @if ($left != "") {
+        left: px2rem2($left);
+    } @else {
+        left:50%;
+        margin-left: px2rem2(-$width/2);
+    }
+    @content;
+}
+
+// 文本处理
+%overText{
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+%nowrap{
+    white-space: nowrap;
+    word-break: keep-all;
+}
+
+// border
+// 对于宽度为100%的 边框 1px无法实现
+// 采用defore模拟实现
+@mixin border($color, $borderRadius, $borderWidth, $zIndex) {
+    position: relative;
+    border: none;
+    &:before {
+        content:'';
+        position: absolute;top:0;left:0;
+        width: 200%;height: 200%;
+        border-style:solid;
+        border-color:$color;
+        border-width:$borderWidth;
+        border-radius:$borderRadius;
+        -webkit-transform-origin: 0 0;
+        -moz-transform-origin: 0 0;
+        -ms-transform-origin: 0 0;
+        -o-transform-origin: 0 0;
+        transform-origin: 0 0;
+        -webkit-transform: scale(0.5, 0.5);
+        -ms-transform: scale(0.5, 0.5);
+        -o-transform: scale(0.5, 0.5);
+        transform: scale(0.5, 0.5);
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        z-index: $zIndex;
+        pointer-events: none;
+    }
+}
+
+
+
+

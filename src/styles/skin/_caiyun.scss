@@ -1,0 +1,15 @@
+$activeColor: #fa565a !default;
+$newBtnColor: #f4bb61 !default;
+$colorRed: #F17474 !default;
+$borderRadius: 0.38; //0.14
+$borderColor: #cecece;
+
+.color-black { color:#333!important; }
+.color-green { color:#64BE65!important; }
+.color-red { color: $colorRed!important; }
+
+@import "../../styles/function";
+@import "../../App/Index";
+@import "../../Component/Avatar/Avatar";
+@import "../../Component/Create/Create";
+@import "../../Component/Detail/Detail";
