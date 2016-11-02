@@ -18,7 +18,7 @@ var data = {
     "xiaowo": { directory: "xiaowo" }
 };
 
-module.exports = {
+var config = {
     entry: {
         app: ["./src/app.jsx"],
         vendor: ['react','react-dom','react-router']
@@ -68,7 +68,8 @@ module.exports = {
     },
     plugins: [
         new webpack.DefinePlugin({
-            __APP__: JSON.stringify(process.env.app)
+            __APP__: JSON.stringify(process.env.app),
+            NODE_ENV: process.env.app == "dev" ? "" : JSON.stringify("production")
         }),
         //单独使用link标签加载css并设置路径，相对于output配置中的 publickPath
         extractCSS, 
@@ -83,3 +84,4 @@ module.exports = {
         // new webpack.HotModuleReplacementPlugin()
     ]
 };
+module.exports = config;
