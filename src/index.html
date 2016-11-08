@@ -1,8 +1,37 @@
 <!DOCTYPE html>
-<html>
+<html version="2.0.0">
 <head>
 	<meta charset="UTF-8">
-	<title>react test</title>
+<script id="version">
+(function () {
+var script = document.createElement("script");
+script.src = "../../version.js?_=" + Math.random();
+document.getElementsByTagName("head")[0].appendChild(script);
+
+window.APP_VERSION_CALLBACK = function () {
+    if (document.documentElement.getAttribute("version") != window.APP__VERSION) {
+        if (location.search) {
+            var sArr = location.search.split("&"), search = {}, temp;
+            for (var i = 0;i < sArr.length; i++) {
+                temp = sArr[i].split("=");
+                search[temp[0]] = temp[1];
+            }
+        }
+        // 得到search object
+        search["version"] = window.APP__VERSION;
+        // search.join("")
+        temp = [];
+        for (var name in search) {
+            temp.push(name + "=" + search[name]);
+        }
+        reloadUrl = location.origin + location.pathname + temp.join("&") + location.hash;
+        console.log(reloadUrl);
+        location.href = reloadUrl;
+    }           
+}
+}());
+</script>
+<title>react TODO</title>
     <meta name="format-detection" content="telephone=no"/>
 	<script>
         ;(function (win) {

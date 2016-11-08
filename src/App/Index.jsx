@@ -1,40 +1,40 @@
-import React from 'react';
-import Helmet from "react-helmet";
+import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
 
-export default class App extends React.Component{
-    constructor(props){
-        super(props);
-        
-        this.state = {
-            
-        };
-    }
-    componentWillMount(){
-        
-    }
-    componentDidMount(){
-        
-    }
-    test(){
-        console.log("test");
-    }
-    handle(){
-        // const location = this.props.location;
-        // if (location.state && location.state.nextPathname) {
-        //     this.props.history.replaceState(null, location.state.nextPathname);
-        // } else {
-        //     // 这里使用 replaceState 方法做了跳转，但在浏览器历史中不会多一条记录，因为是替换了当前的记录
-        //     this.props.history.replaceState(null, '/create');
-        // }
-        location.href = "#/inbox"
-    }
-    render(){
+import AddTodo from 'Component/AddTodo';
+import TodoList from 'Component/TodoList';
+import Footer from 'Component/Footer';
+import { addTodo, completeTodo, setVisibilityFilter, VisibilityFilters } from 'Component/actionTypes';
+
+class Index extends Component {
+    render() {
+        const { dispatch, visibleTodos, visibilityFilter } = this.props;
         return (
-            <div className="container">
-                <Helmet title="test"/>
-                
-                <div onClick={this.handle.bind(this)}>跳转</div>
+            <div>
+                <AddTodo onAddClick={text => dispatch(addTodo(text))} />
+                <TodoList todos={visibleTodos}
+                    onTodoClick={index => dispatch(completeTodo(index))} />
+                <Footer filter={visibilityFilter}
+                    onFilterChange={nextFilter => dispatch(setVisibilityFilter(nextFilter))} />
             </div>
-        )
+        );
     }
 }
+
+function selectTodos(todos, filter) {
+    switch (filter) {
+        case VisibilityFilters.SHOW_ALL:
+            return todos;
+        case VisibilityFilters.SHOW_COMPLETED:
+            return todos.filter(todo => todo.completed);
+        case VisibilityFilters.SHOW_ACTIVE:
+            return todos.filter(todo => !todo.completed);
+    }
+}
+function select(state) {
+    return {
+        visibleTodos: selectTodos(state.todos, state.visibilityFilter),
+        visibilityFilter: state.visibilityFilter
+    }
+}
+export default connect(select)(Index);

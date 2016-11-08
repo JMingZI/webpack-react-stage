@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html version="2.0.0">
+<head>
+	<meta charset="UTF-8">
+<script id="version">
+(function () {
+var script = document.createElement("script");
+script.src = "../../version.js?_=" + Math.random();
+document.getElementsByTagName("head")[0].appendChild(script);
+
+window.APP_VERSION_CALLBACK = function () {
+    if (document.documentElement.getAttribute("version") != window.APP__VERSION) {
+        if (location.search) {
+            var sArr = location.search.split("&"), search = {}, temp;
+            for (var i = 0;i < sArr.length; i++) {
+                temp = sArr[i].split("=");
+                search[temp[0]] = temp[1];
+            }
+        }
+        // 得到search object
+        search["version"] = window.APP__VERSION;
+        // search.join("")
+        temp = [];
+        for (var name in search) {
+            temp.push(name + "=" + search[name]);
+        }
+        reloadUrl = location.origin + location.pathname + temp.join("&") + location.hash;
+        console.log(reloadUrl);
+        location.href = reloadUrl;
+    }           
+}
+}());
+</script>
+<title>react TODO</title>
+    <meta name="format-detection" content="telephone=no"/>
+	<script>
+        ;(function (win) {
+            var doc = win.document;
+            var docEl = doc.documentElement;
+            var metaEl = doc.querySelector('meta[name="viewport"]');
+
+            if (!metaEl) {
+                metaEl = doc.createElement('meta');
+                metaEl.setAttribute('name', 'viewport');
+                metaEl.setAttribute('content', 'width=device-width,initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no');
+                if (docEl.firstElementChild) {
+                    docEl.firstElementChild.appendChild(metaEl);
+                } else {
+                    var wrap = doc.createElement('div');
+                    wrap.appendChild(metaEl);
+                    doc.write(wrap.innerHTML);
+                }
+            }
+            var originWidth = docEl.getBoundingClientRect().width;
+
+            // document data-dpr set font-size px
+            var dpr = window.devicePixelRatio;
+            if (devicePixelRatio >= 3 && (!dpr || dpr >= 3)) {
+                dpr = 3;
+            } else if (devicePixelRatio >= 2 && (!dpr || dpr >= 2)){
+                dpr = 2;
+            } else {
+                dpr = 1;
+            }
+            docEl.setAttribute('data-dpr', dpr);
+            var scale = parseFloat((1 / dpr).toFixed(2));
+            if (dpr != 1) {
+                metaEl.setAttribute('content', 'width=device-width,initial-scale='+ scale +', maximum-scale='+ scale +', minimum-scale='+ scale +', user-scalable=no');
+            }
+
+            // document width
+            function setDocumentFontSize () {
+                var scaleWidth = docEl.getBoundingClientRect().width;
+                scaleWidth = originWidth > 540 ? 540*dpr : scaleWidth;
+                docEl.style.fontSize = scaleWidth / 10 + 'px';
+
+                if (scaleWidth == originWidth) {
+                    docEl.setAttribute('data-dpr', 1);
+                    scale = 1;
+                    metaEl.setAttribute('content', 'width=device-width,initial-scale='+ scale +', maximum-scale='+ scale +', minimum-scale='+ scale +', user-scalable=no');
+                }
+            }
+            setDocumentFontSize();
+
+            var timer;
+            win.addEventListener('resize', function() {
+                clearTimeout(timer);
+                timer = setTimeout(function () {
+                    setDocumentFontSize();
+                }, 300);
+            }, false);
+        })(window);
+	</script>
+</head>
+<body>
+	<div id="app"></div>
+<script type="text/javascript" src="../js/base.js?157db6657a9dde36209f"></script><script type="text/javascript" src="../js/app.js?157db6657a9dde36209f"></script></body>
+</html>

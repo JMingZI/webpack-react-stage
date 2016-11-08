@@ -6,6 +6,15 @@
 var webpack = require("webpack");
 var path = require("path");
 
+var version = require('compare-version-reload');
+version.init({
+    filename: "version",
+    path: "./",
+    templateHtmlPath: "./src/index.html",
+    templateLinkPath: "../../",
+    version: "2.0.0"
+});
+
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var extractCSS = new ExtractTextPlugin("styles/[name].css");
@@ -21,7 +30,7 @@ var data = {
 var config = {
     entry: {
         app: ["./src/app.jsx"],
-        vendor: ['react','react-dom','react-router']
+        vendor: ['react', 'react-dom','react-router', 'react-redux', 'redux', 'antd']
     },
     output: {
         path: path.resolve(__dirname, data[process.env.app].directory),
@@ -34,7 +43,12 @@ var config = {
             {
                 test: /\.(js|jsx)$/, 
                 exclude: /(node_modules|bower_components)/, 
-                loader: "babel", 
+                loader: "babel",
+                // include: [
+                //     // 只去解析运行目录下的 src 和 demo 文件夹
+                //     path.join(process.cwd(), './src'),
+                //     path.join(process.cwd(), './demo')
+                // ],
                 query: { 
                     presets: ['es2015', 'react'] 
                 } 
@@ -49,10 +63,17 @@ var config = {
                 loader: extractCSS.extract('css!sass')
             },
             {
+                test: /\.less/,
+                loader: extractCSS.extract('css!less')
+            },
+            {
                 test: /\.(png|jpg|gif)$/,
                 loader: "url-loader?limit=8192&name=./files/[name].[ext]"
             }
-        ]
+        ],
+        plugins:['antd',{
+            style:'css'
+        }]
     },
     sassLoader: {
         includePaths: [path.resolve(__dirname, "src/styles")]
@@ -67,21 +88,24 @@ var config = {
         ]
     },
     plugins: [
+        // new webpack.DllReferencePlugin({
+        //     context: __dirname,
+        //     manifest: require('./caiyun/vendor-manifest.json')
+        // }),
         new webpack.DefinePlugin({
             __APP__: JSON.stringify(process.env.app),
-            NODE_ENV: process.env.app == "dev" ? "" : JSON.stringify("production")
+            "process.env.NODE_ENV": process.env.app == "dev" ? JSON.stringify("development") : JSON.stringify("production")
         }),
         //单独使用link标签加载css并设置路径，相对于output配置中的 publickPath
         extractCSS, 
         new HtmlWebpackPlugin({       
             // 输出的 HTML 文件名
-            filename:'htmls/index.html',
-            template:'./src/index.html',    
-            inject:true,    
-            hash:true
+            filename: 'htmls/index.html',
+            template: './src/index.html',
+            inject: true,
+            hash: true
         }),
-        new webpack.optimize.CommonsChunkPlugin("vendor", jsPath + "base.js"), //"[chunkhash:8].base.js"
-        // new webpack.HotModuleReplacementPlugin()
+        new webpack.optimize.CommonsChunkPlugin("vendor", jsPath + "base.js"),
     ]
 };
 module.exports = config;
