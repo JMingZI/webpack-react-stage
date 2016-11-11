@@ -36,6 +36,7 @@ webpackJsonp([0],{
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var store = (0, _redux.createStore)(_Reducer2.default);
+
 	var rootElement = document.getElementById("app");
 	(0, _reactDom.render)(_react2.default.createElement(
 	    _reactRedux.Provider,
@@ -129,6 +130,7 @@ webpackJsonp([0],{
 	    _createClass(Index, [{
 	        key: 'render',
 	        value: function render() {
+	            console.log(this.props);
 	            var _props = this.props,
 	                dispatch = _props.dispatch,
 	                visibleTodos = _props.visibleTodos,

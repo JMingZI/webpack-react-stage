@@ -7,6 +7,7 @@ import Index from "App/Index"
 import todoapp from "Component/Reducer"
 
 let store = createStore(todoapp);
+
 let rootElement = document.getElementById("app");
 render(
     <Provider store = {store}>

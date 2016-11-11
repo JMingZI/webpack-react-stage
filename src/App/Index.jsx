@@ -8,6 +8,7 @@ import { addTodo, completeTodo, setVisibilityFilter, VisibilityFilters } from 'C
 
 class Index extends Component {
     render() {
+        console.log(this.props);
         const { dispatch, visibleTodos, visibilityFilter } = this.props;
         return (
             <div>
